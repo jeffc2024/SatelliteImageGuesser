@@ -1,0 +1,54 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SatelliteGuesser</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}"></script>
+    <script>
+        const GOOGLE_MAPS_API_KEY = "{{ api_key }}";
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div id="map" class="map"></div>
+        <div class="sidebar">
+            <img id="satellite-image" src="" alt="Satellite View" class="satellite-image">
+            <div class="score-display">Total Score: <span id="score">0</span></div>
+            
+            <!-- Username Input -->
+            <input type="text" id="username" placeholder="Enter your username" class="username-input">
+            <button id="start-btn" disabled>Start</button>
+            <button id="quit-btn" style="display:none;">Quit</button>
+
+            <!-- Score Table -->
+            <div class="round-score-table">
+                <table id="score-table">
+                    <thead>
+                        <tr>
+                            <th>Round</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Instructions -->
+    <div class="instructions">
+        <p>
+            Welcome to SatelliteGuesser! The goal of the game is to guess the location of a randomly generated
+            satellite image on the world map. Each round, a satellite image of a location on Earth is displayed.
+            Click on the map to guess where you think the location is. The closer you are to the correct location, 
+            the more points you score. The closer you guess within 3000 miles, the more points you will earn based on your proximity by miles.
+        </p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+/* static/css/styles.css */
+.container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.map {
+    flex: 3;
+    height: 100%;
+}
+
+.sidebar {
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.satellite-image {
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+.score-display {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.round-score-table {
+    margin-top: 20px;
+    width: 100%;
+}
+
+#score-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+#score-table th, #score-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#score-table th {
+    background-color: #f4f4f4;
+}
+
+.instructions {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f8f8f8;
+    border-top: 1px solid #ccc;
+    text-align: center;
+    font-size: 1em;
+    color: #333;
+}
+
+.instructions p {
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
