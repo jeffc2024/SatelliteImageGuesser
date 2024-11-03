@@ -1,9 +1,11 @@
-// static/js/app.js
 let map;
 let score = 0;
 let round = 0;
 let targetLocation = { lat: 34.0522, lng: -118.2437 };
 let maxZoomService;
+let guessMarker;
+let correctMarker;
+let selectedGuess = null;
 
 document.getElementById("username").addEventListener("input", function() {
     const username = document.getElementById("username").value;
@@ -18,13 +20,37 @@ function initMap() {
 
     maxZoomService = new google.maps.MaxZoomService();
 
+    // Initialize markers, initially hidden
+    guessMarker = new google.maps.Marker({
+        map: map,
+        visible: false,
+    });
+
+    correctMarker = new google.maps.Marker({
+        map: map,
+        visible: false,
+        icon: {
+            url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+        }
+    });
+
     map.addListener("click", function(e) {
-        handleGuess(e.latLng.lat(), e.latLng.lng());
+        // Update guessMarker position based on user's new click
+        selectedGuess = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+        guessMarker.setPosition(selectedGuess);
+        guessMarker.setVisible(true);
+
+        // Hide the correct marker, ready for the new round
+        correctMarker.setVisible(false);
+
+        // Show the Confirm Guess button
+        document.getElementById("confirm-btn").style.display = "inline";
     });
 }
 
 document.getElementById("start-btn").addEventListener("click", startGame);
 document.getElementById("quit-btn").addEventListener("click", endGame);
+document.getElementById("confirm-btn").addEventListener("click", confirmGuess);
 
 function startGame() {
     const username = document.getElementById("username").value;
@@ -39,13 +65,22 @@ function startGame() {
         targetLocation = data.target;
         document.getElementById("start-btn").style.display = "none";
         document.getElementById("quit-btn").style.display = "inline";
-        document.getElementById("username").style.display = "none";  // Hide username input after starting
+        document.getElementById("username").style.display = "none";
         updateSatelliteImage(targetLocation);
         clearScoreTable();
+
+        // Hide markers and confirm button at the start of a new game
+        guessMarker.setVisible(false);
+        correctMarker.setVisible(false);
+        document.getElementById("confirm-btn").style.display = "none";
     });
 }
 
-function handleGuess(lat, lng) {
+function confirmGuess() {
+    if (!selectedGuess) return;
+
+    const { lat, lng } = selectedGuess;
+
     fetch('/guess', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -56,9 +91,18 @@ function handleGuess(lat, lng) {
         score += data.points;
         round += 1;
         document.getElementById("score").innerText = score;
+        updateScoreTable(round, data.points);
+
+        // Show the correct marker at the target location and keep it visible until the next guess
+        correctMarker.setPosition({ lat: targetLocation.lat, lng: targetLocation.lng });
+        correctMarker.setVisible(true);
+
+        // Generate a new target location for the next round
         targetLocation = data.new_target;
         updateSatelliteImage(targetLocation);
-        updateScoreTable(round, data.points);
+
+        // Hide the Confirm Guess button until the next guess
+        document.getElementById("confirm-btn").style.display = "none";
     });
 }
 
@@ -72,26 +116,23 @@ function endGame() {
 }
 
 function resetGame() {
-    // Reset score and rounds
     score = 0;
     round = 0;
     document.getElementById("score").innerText = score;
-
-    // Show start button and hide quit button
     document.getElementById("start-btn").style.display = "inline";
     document.getElementById("quit-btn").style.display = "none";
 
-    // Clear and show the username input field
     const usernameInput = document.getElementById("username");
-    usernameInput.value = "";  // Clear the input
-    usernameInput.style.display = "inline";  // Show the input field again
-    document.getElementById("start-btn").disabled = true;  // Disable start button until a new username is entered
+    usernameInput.value = "";
+    usernameInput.style.display = "inline";
+    document.getElementById("start-btn").disabled = true;
 
-    // Clear the score table
+    guessMarker.setVisible(false);
+    correctMarker.setVisible(false);
+    document.getElementById("confirm-btn").style.display = "none";
     clearScoreTable();
 }
 
-// Function to update satellite image with appropriate zoom level
 function updateSatelliteImage(location) {
     const lat = location.lat;
     const lng = location.lng;
@@ -109,7 +150,6 @@ function updateSatelliteImage(location) {
         document.getElementById("satellite-image").src = url;
     });
 }
-
 
 function updateScoreTable(round, points) {
     const table = document.getElementById("score-table");

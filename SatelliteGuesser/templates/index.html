@@ -1,4 +1,3 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,11 +16,12 @@
         <div class="sidebar">
             <img id="satellite-image" src="" alt="Satellite View" class="satellite-image">
             <div class="score-display">Total Score: <span id="score">0</span></div>
-            
+
             <!-- Username Input -->
             <input type="text" id="username" placeholder="Enter your username" class="username-input">
             <button id="start-btn" disabled>Start</button>
             <button id="quit-btn" style="display:none;">Quit</button>
+            <button id="confirm-btn" style="display:none;">Confirm Guess</button>
 
             <!-- Score Table -->
             <div class="round-score-table">
@@ -44,8 +44,9 @@
         <p>
             Welcome to SatelliteGuesser! The goal of the game is to guess the location of a randomly generated
             satellite image on the world map. Each round, a satellite image of a location on Earth is displayed.
-            Click on the map to guess where you think the location is. The closer you are to the correct location, 
+            Click on the map to choose your guess location, then press "Confirm Guess" to submit it. The closer you are to the correct location, 
             the more points you score. The closer you guess within 3000 miles, the more points you will earn based on your proximity by miles.
+            A blue dot that indicates the correct location will appear after each guess, while the red marker is the user guess.
         </p>
     </div>
 

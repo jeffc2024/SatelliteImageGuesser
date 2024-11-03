@@ -74,7 +74,7 @@ def process_guess():
     distance = calculate_distance(user_lat, user_lng, target_lat, target_lng)
     
     # Calculate points: 0 points if outside 3000-mile radius, otherwise max 2000 points scaled by proximity
-    points = 0 if distance > 3000 else max(0, 3000 - distance)
+    points = 0 if distance > 3000 else int(max(0, 3000 - distance))
     
     game_data["score"] += points
     game_data["rounds"] += 1

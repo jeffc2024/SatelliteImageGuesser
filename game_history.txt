@@ -1,0 +1,4 @@
+2024-11-03 09:41:39, Username: Jeff, Rounds: 9, Score: 3041.0868988760476, Round Scores: [0, 1449.1738788211096, 0, 0, 0, 0, 1591.9130200549378, 0, 0]
+2024-11-03 09:41:56, Username: turtle, Rounds: 3, Score: 139.3600572653031, Round Scores: [0, 139.3600572653031, 0]
+2024-11-03 09:57:00, Username: jeff, Rounds: 1, Score: 0, Round Scores: [0]
+2024-11-03 10:12:29, Username: Jeff, Rounds: 3, Score: 3950, Round Scores: [0, 1612, 2338]
